@@ -1,12 +1,9 @@
 package vistas;
 
-import clases.consultas.consultasproducido;
 import clases.modelos.Producido;
 import clases.propiedades2;
-import java.awt.Color;
 import java.awt.Desktop;
 import java.awt.Dimension;
-import static java.awt.Frame.MAXIMIZED_BOTH;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
 import java.awt.Image;
@@ -20,7 +17,6 @@ import java.text.DecimalFormat;
 import java.text.Format;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.Date;
@@ -30,12 +26,8 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import static java.util.stream.Collectors.toList;
 import javax.swing.ImageIcon;
-import javax.swing.JComponent;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
-import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -382,6 +374,7 @@ public class visor extends javax.swing.JFrame {
             int z= Image.SCALE_AREA_AVERAGING;
             int zancho2 = 600;
             File f2 = new File(zrutaimagen);
+            boolean zsicumple = true;
             try {
                 while (zvariablecontrol){                     
                     capturaResolucion();
@@ -390,7 +383,7 @@ public class visor extends javax.swing.JFrame {
                     jLabel1.setBounds(pantalla.width-600,101,590,pantalla.height-180);
                     jLabel4.setBounds(pantalla.width-600,1,590, 101);
                     jLabel4.setText(String.valueOf(LocalDate.now()) + " - " + hora);
-
+                    
                     int zalto2  = jLabel1.getHeight();
                     File[] ficheros2 = f2.listFiles();
                     for (int y=0;y<ficheros2.length;y++){
@@ -398,9 +391,20 @@ public class visor extends javax.swing.JFrame {
                             ficheros2[y].getName().toLowerCase().endsWith(".png") || ficheros2[y].getName().toLowerCase().endsWith(".gif") || 
                             ficheros2[y].getName().toLowerCase().endsWith(".bmp")) && ficheros2[y].getName().substring(0,3).equals("IZ_") )
                         {
-                           icono = new ImageIcon(new ImageIcon(zrutaimagen + ficheros2[y].getName()).getImage().getScaledInstance(zancho2,zalto2,z));
-                           jLabel1.setIcon(icono);
-                           Thread.sleep(ztiempopubl);
+                           zsicumple= true;
+                           if (ficheros2[y].getName().substring(0,8).equalsIgnoreCase("IZ_cump_")){
+                                final Integer zano = Integer.valueOf(ficheros2[y].getName().substring(8,12));
+                                final Integer zmes = Integer.valueOf(ficheros2[y].getName().substring(13,15));
+                                LocalDate fechaHoy = LocalDate.now();
+                                if (fechaHoy.getYear()!=zano || fechaHoy.getMonthValue()!=zmes){
+                                     zsicumple= false;
+                                }                              
+                           } 
+                           if (zsicumple){
+                                icono = new ImageIcon(new ImageIcon(zrutaimagen + ficheros2[y].getName()).getImage().getScaledInstance(zancho2,zalto2,z));
+                                jLabel1.setIcon(icono);
+                                Thread.sleep(ztiempopubl);
+                           }    
                         }
                     }
                 }
@@ -475,14 +479,10 @@ public class visor extends javax.swing.JFrame {
      public void abrirarchivo(String archivo){
 
      try {
-
             File objetofile = new File (archivo);
             Desktop.getDesktop().open(objetofile);
-
      }catch (IOException ex) {
-
             System.out.println(ex);
-
      }
 
     }
