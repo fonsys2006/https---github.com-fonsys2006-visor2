@@ -2,6 +2,8 @@ package vistas;
 
 import clases.modelos.Producido;
 import clases.propiedades2;
+
+import java.awt.Color;
 import java.awt.Desktop;
 import java.awt.Dimension;
 import java.awt.GraphicsDevice;
@@ -355,7 +357,7 @@ public class visor extends javax.swing.JFrame {
                             ficheros[x].getName().toLowerCase().endsWith(".png") || ficheros[x].getName().toLowerCase().endsWith(".gif") || 
                             ficheros[x].getName().toLowerCase().endsWith(".bmp")) && !ficheros[x].getName().substring(0,3).equalsIgnoreCase("IZ_"))
                         {
-                            icono = new ImageIcon(new ImageIcon(zrutaimagen + ficheros[x].getName()).getImage().getScaledInstance(zancho2,zalto2,z));
+                            icono = new ImageIcon(new ImageIcon(zrutaimagen + ficheros[x].getName()).getImage().getScaledInstance(zancho2,zalto2,Image.SCALE_DEFAULT));
                             jLabel6.setIcon(icono);
                             Thread.sleep(ztiempopubl1);
                         }
@@ -383,6 +385,8 @@ public class visor extends javax.swing.JFrame {
                     jLabel1.setBounds(pantalla.width-600,101,590,pantalla.height-180);
                     jLabel4.setBounds(pantalla.width-600,1,590, 101);
                     jLabel4.setText(String.valueOf(LocalDate.now()) + " - " + hora);
+                    jLabel4.setBackground(Color.white);
+                    jLabel4.setOpaque(true);
                     
                     int zalto2  = jLabel1.getHeight();
                     File[] ficheros2 = f2.listFiles();
