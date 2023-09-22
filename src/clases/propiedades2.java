@@ -44,7 +44,7 @@ public class propiedades2 extends JFrame implements ActionListener {
     public propiedades2() throws IOException  {
         super("Configuración");
         //getContentPane().setLayout(new FlowLayout());
-        this.setBounds(440,10,550,400);                         // colocamos tamanio a la ventana (ancho, alto)
+        this.setBounds(440,10,600,420);                         // colocamos tamanio a la ventana (ancho, alto)
         this.setLocationRelativeTo(null);                       // centramos la ventana en la pantalla
         this.setLayout(null);                                   // no usamos ningun layout, solo asi podremos dar posiciones a los componentes
         this.setResizable(false);                               // hacemos que la ventana no sea redimiensionable
@@ -65,8 +65,8 @@ public class propiedades2 extends JFrame implements ActionListener {
         textfield1.setEnabled(false);
         textfield1.setDisabledTextColor(Color.red);
         
-        //* Tiempo Muestra Producido
-        label3 = new JLabel("Tiempo Muestra Producido :");
+        //* Tiempo Muestra Publicidad 1
+        label3 = new JLabel("Tiempo Muestra Publicidad 1 :");
         label3.setBounds(50, 115, 170, 25);   
         labeltiempo1 = new JLabel("0   seg.");
         labeltiempo1.setBounds(430, 115, 60, 25); 
@@ -79,10 +79,10 @@ public class propiedades2 extends JFrame implements ActionListener {
         tiempo1.setMinorTickSpacing(5);
         tiempo1.setPaintLabels(true);
         tiempo1.addChangeListener(new cambiotiempo());       
-        //* Fin Tiempo Muestra Producido
+        //* Fin Tiempo Muestra Publicidad 1
 
-        //* Tiempo Muestra Publicidad
-        label4 = new JLabel("Tiempo Muestra Publicidad :");
+        //* Tiempo Muestra Publicidad 2
+        label4 = new JLabel("Tiempo Muestra Publicidad 2 :");
         label4.setBounds(50, 180, 170, 25);
         labeltiempo2 = new JLabel("0   seg.");
         labeltiempo2.setBounds(430, 180, 60, 25); 
@@ -95,7 +95,7 @@ public class propiedades2 extends JFrame implements ActionListener {
         tiempo2.setMinorTickSpacing(10);
         tiempo2.setPaintLabels(true);
         tiempo2.addChangeListener(new cambiotiempo());       
-        //* Fin Tiempo Muestra Publicidad
+        //* Fin Tiempo Muestra Publicidad 2
         
         //* Tiempo Velocidad Mensajes
         label5 = new JLabel("Velocidad Mensajes de Texto:");

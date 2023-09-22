@@ -15,11 +15,15 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.sql.Date;
+/*import java.sql.Date; */
 import java.text.DecimalFormat;
+import java.text.Format;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.Date;
 import java.util.List;
 import java.util.Properties;
 import java.util.function.Predicate;
@@ -69,11 +73,14 @@ public class visor extends javax.swing.JFrame {
         this.setIconImage(image);
         this.setExtendedState(NORMAL);
         capturaResolucion();   
-        ObtenerConfiguracion(); 
+        ObtenerConfiguracion();
+ 
         zvariablecontrol = true;
         img.start();
         img2.start();
         img3.start();   
+        /*jLabel4.setBounds(pantalla.width-600,10,590, pantalla.height-jLabel1.getHeight()); */
+
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -164,7 +171,7 @@ public class visor extends javax.swing.JFrame {
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel2.setText("jLabel2");
+        /*jLabel2.setText("jLabel2");*/
         jLabel2.setComponentPopupMenu(Menusalir);
         jLabel2.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         jLabel2.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
@@ -181,12 +188,13 @@ public class visor extends javax.swing.JFrame {
         jLabel5.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(0, 0, 255));
         jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel5.setText("jLabel2");
+        /*jLabel5.setText("jLabel5");*/
         jLabel5.setComponentPopupMenu(Menusalir);
 
         jLabel4.setFont(new java.awt.Font("Tahoma", 1, 36)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(0, 204, 51));
         jLabel4.setText("jLabel4");
+        jLabel4.setHorizontalAlignment((int) CENTER_ALIGNMENT);
 
         jLabel6.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 2));
         jLabel6.setComponentPopupMenu(Menusalir);
@@ -325,27 +333,40 @@ public class visor extends javax.swing.JFrame {
         @Override
         public void run(){
             ImageIcon icono = new ImageIcon();
+            ImageIcon logoemp1 = new ImageIcon();
+            ImageIcon logoemp2 = new ImageIcon(); 
             int z= Image.SCALE_AREA_AVERAGING;
-
-            //int zalto2  = jLabel1.getHeight();   //670;
             File f = new File(zrutaimagen);
             try {
                 while (zvariablecontrol){                     
                     capturaResolucion();
-                    jLabel6.setBounds(10,101,pantalla.width-520,pantalla.height-180);
+                    jLabel6.setBounds(10,101,pantalla.width-620,pantalla.height-180);
                     jLabel6.setHorizontalAlignment((int) CENTER_ALIGNMENT);
                     int zalto2  = jLabel6.getHeight();
                     int zancho2 = jLabel6.getWidth();
                     File[] ficheros = f.listFiles();
-                    jLabel2.setText("");
+
+                    /****logo tipos de la empresa****/
+                    logoemp1 = new ImageIcon(getClass().getResource("/imagenes/embusalogo.jpg"));
+                    logoemp1 = new ImageIcon(logoemp1.getImage().getScaledInstance(500,100,z));
+                    jLabel2.setIcon(logoemp1);
+                     
+                    logoemp2 = new ImageIcon(getClass().getResource("/imagenes/flota_logo.jpg"));
+                    logoemp2 = new ImageIcon(logoemp2.getImage().getScaledInstance(500,100,z));
+                    jLabel5.setIcon(logoemp2);
+                    jLabel2.setBounds(10,1,jLabel6.getWidth()/2,100);
+                    jLabel5.setBounds((jLabel6.getWidth()/2) + 15,1,jLabel6.getWidth()/2,100);
+                     /****Fin logo tipos de la empresa****/
+
                     for (int x=0;x<ficheros.length;x++){
-                        if ((ficheros[x].getName().toLowerCase().endsWith(".jpg") || ficheros[x].getName().toLowerCase().endsWith(".jpeg") || ficheros[x].getName().toLowerCase().endsWith(".png") ||
-                           ficheros[x].getName().toLowerCase().endsWith(".gif") || ficheros[x].getName().toLowerCase().endsWith(".bmp")) && ficheros[x].getName().substring(0,3).equals("ID_") ){
-                           icono = new ImageIcon(new ImageIcon(zrutaimagen + ficheros[x].getName()).getImage().getScaledInstance(zancho2,zalto2,z));
-                           jLabel6.setIcon(icono);
-                           Thread.sleep(ztiempopubl1);
+                        if ((ficheros[x].getName().toLowerCase().endsWith(".jpg") || ficheros[x].getName().toLowerCase().endsWith(".jpeg") || 
+                            ficheros[x].getName().toLowerCase().endsWith(".png") || ficheros[x].getName().toLowerCase().endsWith(".gif") || 
+                            ficheros[x].getName().toLowerCase().endsWith(".bmp")) && !ficheros[x].getName().substring(0,3).equalsIgnoreCase("IZ_"))
+                        {
+                            icono = new ImageIcon(new ImageIcon(zrutaimagen + ficheros[x].getName()).getImage().getScaledInstance(zancho2,zalto2,z));
+                            jLabel6.setIcon(icono);
+                            Thread.sleep(ztiempopubl1);
                         }
-                        jLabel2.setText(ficheros[x].getName());
                     }
                 }
             } catch (InterruptedException ex) {
@@ -359,19 +380,25 @@ public class visor extends javax.swing.JFrame {
         public void run(){
             ImageIcon icono = new ImageIcon();
             int z= Image.SCALE_AREA_AVERAGING;
-            int zancho2 = 500;
-            //int zalto2  = jLabel1.getHeight();   //670;
-            File f = new File(zrutaimagen);
+            int zancho2 = 600;
+            File f2 = new File(zrutaimagen);
             try {
                 while (zvariablecontrol){                     
                     capturaResolucion();
-                    jLabel1.setBounds(pantalla.width-500,101,490,pantalla.height-180);
+                    Format f = new SimpleDateFormat("hh:mm a");
+                    String hora = f.format( new Date());
+                    jLabel1.setBounds(pantalla.width-600,101,590,pantalla.height-180);
+                    jLabel4.setBounds(pantalla.width-600,1,590, 101);
+                    jLabel4.setText(String.valueOf(LocalDate.now()) + " - " + hora);
+
                     int zalto2  = jLabel1.getHeight();
-                    File[] ficheros = f.listFiles();
-                    for (int x=0;x<ficheros.length;x++){
-                        if (ficheros[x].getName().toLowerCase().endsWith(".jpg") || ficheros[x].getName().toLowerCase().endsWith(".jpeg") || ficheros[x].getName().toLowerCase().endsWith(".png") ||
-                           ficheros[x].getName().toLowerCase().endsWith(".gif") || ficheros[x].getName().toLowerCase().endsWith(".bmp")){
-                           icono = new ImageIcon(new ImageIcon(zrutaimagen + ficheros[x].getName()).getImage().getScaledInstance(zancho2,zalto2,z));
+                    File[] ficheros2 = f2.listFiles();
+                    for (int y=0;y<ficheros2.length;y++){
+                        if ((ficheros2[y].getName().toLowerCase().endsWith(".jpg") || ficheros2[y].getName().toLowerCase().endsWith(".jpeg") || 
+                            ficheros2[y].getName().toLowerCase().endsWith(".png") || ficheros2[y].getName().toLowerCase().endsWith(".gif") || 
+                            ficheros2[y].getName().toLowerCase().endsWith(".bmp")) && ficheros2[y].getName().substring(0,3).equals("IZ_") )
+                        {
+                           icono = new ImageIcon(new ImageIcon(zrutaimagen + ficheros2[y].getName()).getImage().getScaledInstance(zancho2,zalto2,z));
                            jLabel1.setIcon(icono);
                            Thread.sleep(ztiempopubl);
                         }
